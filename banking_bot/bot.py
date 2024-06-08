@@ -6,7 +6,7 @@ from config import TOKEN
 
 
 async def echo(message: Message):
-    await message.answer(message.text)
+    await message.answer(f"{message.from_user.full_name} написал: {message.text}")
 
 async def start():
     bot = Bot(TOKEN)
