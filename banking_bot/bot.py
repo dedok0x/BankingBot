@@ -1,24 +1,23 @@
 import asyncio
-
+import logging
 from aiogram import Bot, Dispatcher
-from aiogram.types import Message
 from config import TOKEN
+from handlers.handlers import router
 
 
-async def echo(message: Message):
-    await message.answer(f"{message.from_user.full_name} написал: {message.text}")
-
-async def start():
+async def main():
     bot = Bot(TOKEN)
-
     dp = Dispatcher()
-
-    dp.message.register(echo)
-
+    dp.include_router(router)
     try:
         await dp.start_polling(bot)
     finally:
         await bot.session.close()
 
+
 if __name__ == "__main__":
-    asyncio.run(start())
+    logging.basicConfig(level=logging.INFO)
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Бот выключен")
